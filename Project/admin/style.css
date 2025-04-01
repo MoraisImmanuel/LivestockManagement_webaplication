@@ -1,0 +1,195 @@
+
+    /* General Navbar Styling */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333;
+        padding: 10px 20px;
+        position: relative;
+    }
+
+    .navbar h1 {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    /* Styling for the navbar links */
+    .navbar-links {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-links a {
+        color: white;
+        text-decoration: none;
+        padding: 12px 15px;
+        font-size: 15px;
+        border-radius: 3px;
+        margin-right: 10px;
+        font-weight: 500;
+    }
+
+    .navbar-links a:hover {
+        background-color: #f6a613;
+        color: white;
+    }
+
+    /* Dropdown Toggle */
+    .dropdown-toggle::after {
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Navbar with background */
+    .nav-logo-with-bg .navbar-brand {
+        padding: 40px 15px;
+        margin-top: -50px;
+    }
+
+    .nav-logo-with-bg .navbar-brand::before {
+        position: absolute;
+        content: "";
+        top: 100%;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 90px solid transparent;
+        border-right: 90px solid transparent;
+        border-top: 40px solid;
+        z-index: 99;
+    }
+
+    /* Dropdown Menu Styling */
+    .dropdown-menu {
+        font-size: 15px;
+    }
+
+    .navbar-expand-lg .navbar-nav .dropdown-item {
+        margin-bottom: 2px;
+        line-height: 25px;
+        font-size: 14px;
+    }
+
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding: 12px 15px;
+        margin-right: 2px;
+        font-size: 15px;
+        border-radius: 3px;
+        font-weight: 500;
+    }
+
+    /* Border Hover Effect */
+    .hover-border-white-nav .navbar-nav .nav-link {
+        border: 1px solid transparent;
+    }
+
+    /* Responsive Design for Navbar */
+    .navbar-collapse {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+
+
+    /* Page Wrapper */
+    .page-wrapper {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    /* Content Section */
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .content h2 {
+        font-size: 30px;
+        color: #34495e;
+    }
+
+    /* Row to hold widgets */
+    .row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    /* Card Styles */
+    .card {
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        width: 30%;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card h3 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+
+    .card p {
+        font-size: 16px;
+        color: #7f8c8d;
+    }
+
+    .card a {
+        text-decoration: none;
+        color: #3498db;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .card a:hover {
+        color: #1abc9c;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .card {
+            width: 48%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .card {
+            width: 100%;
+        }
+    }
+
+
+
+       /* Basic Reset */
+       * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Body & Main Container */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+    }

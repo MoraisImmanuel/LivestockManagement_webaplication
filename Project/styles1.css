@@ -1,0 +1,65 @@
+/* Overall page style */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+}
+
+/* Profile container */
+.profile-container {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    background-color: #fff; /* Solid background color for readability */
+    z-index: 1; /* Ensures the profile box stands out */
+    position: relative;
+}
+
+/* Sidebar with profile picture */
+.sidebar {
+    background-color: #e0e0e0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Profile picture style */
+.profile-pic img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+/* Content area */
+.content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* Title style */
+h2 {
+    margin-top: 0;
+}
+
+/* Profile details list */
+.profile-details {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-details li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.profile-details strong {
+    color: #333;
+}

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namibia Animal Health Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        #map { height: 400px; width: 100%; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-green-700 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Namibia Animal Health Management System</h1>
+            <div id="notification-count" class="bg-red-500 px-3 py-1 rounded-full">
+                0 Active Outbreaks
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-6">
+        <div class="bg-white rounded-lg shadow-lg mb-6">
+            <div class="flex border-b">
+                <button class="tab-btn px-6 py-3 font-medium hover:bg-gray-100 active" data-tab="map-tab">
+                    Disease Outbreaks
+                </button>
+                <button class="tab-btn px-6 py-3 font-medium hover:bg-gray-100" data-tab="diagnostic-tab">
+                    Diagnostic Tool
+                </button>
+                <button class="tab-btn px-6 py-3 font-medium hover:bg-gray-100" data-tab="my-animals-tab">
+                    My Animals
+                </button>
+                <button class="tab-btn px-6 py-3 font-medium hover:bg-gray-100" data-tab="register-animal-tab">
+                    Register Animal
+                </button>
+            </div>
+
+            <!-- Disease Outbreaks Tab -->
+            <div id="map-tab" class="tab-content active p-6">
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold mb-4">Current Disease Outbreaks in Namibia</h2>
+                        <div id="map" class="border rounded"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-4">Report Disease Outbreak (Admin Only)</h3>
+                        <form id="outbreak-form" class="space-y-4">
+                            <div>
+                                <label class="block mb-2">Location:</label>
+                                <select name="location" class="w-full p-2 border rounded" required>
+                                    <option value="">Select Location</option>
+                                    <option value="Windhoek">Windhoek</option>
+                                    <option value="Walvis Bay">Walvis Bay</option>
+                                    <option value="Rundu">Rundu</option>
+                                    <option value="Katima Mulilo">Katima Mulilo</option>
+                                    <option value="Otjiwarongo">Otjiwarongo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Disease:</label>
+                                <select name="disease" class="w-full p-2 border rounded" required>
+                                    <option value="">Select Disease</option>
+                                    <option value="FMD">Foot and Mouth Disease</option>
+                                    <option value="Anthrax">Anthrax</option>
+                                    <option value="Rabies">Rabies</option>
+                                    <option value="BTB">Bovine Tuberculosis</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded">Report Outbreak</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnostic Tool Tab -->
+            <div id="diagnostic-tab" class="tab-content p-6">
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold mb-4">Animal Disease Diagnostic Tool</h2>
+                        <form id="diagnostic-form" class="space-y-4">
+                            <div>
+                                <label class="block mb-2">Animal Type:</label>
+                                <select name="animalType" class="w-full p-2 border rounded" required>
+                                    <option value="">Select Animal</option>
+                                    <option value="cattle">Cattle</option>
+                                    <option value="sheep">Sheep</option>
+                                    <option value="goat">Goat</option>
+                                    <option value="chicken">Chicken</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Primary Symptom:</label>
+                                <select name="symptom" class="w-full p-2 border rounded" required>
+                                    <option value="">Select Symptom</option>
+                                    <!-- Will be populated based on animal type -->
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded">Diagnose</button>
+                        </form>
+                        <div id="diagnosis-result" class="mt-4 p-4 border rounded hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Animals Tab -->
+            <div id="my-animals-tab" class="tab-content p-6">
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold mb-4">My Animals</h2>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full table-auto">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="px-4 py-2 text-left">ID</th>
+                                        <th class="px-4 py-2 text-left">Type</th>
+                                        <th class="px-4 py-2 text-left">Age</th>
+                                        <th class="px-4 py-2 text-left">Gender</th>
+                                        <th class="px-4 py-2 text-left">Last Vaccination</th>
+                                        <th class="px-4 py-2 text-left">Next Vaccination</th>
+                                        <th class="px-4 py-2 text-left">Health Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="animals-list">
+                                    <!-- Will be populated from database -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Animal Tab -->
+            <div id="register-animal-tab" class="tab-content p-6">
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-4">
+                        <h2 class="text-xl font-bold mb-4">Register New Animal</h2>
+                        <form id="register-animal-form" class="space-y-4">
+                            <div>
+                                <label class="block mb-2">Animal Type:</label>
+                                <select name="type" class="w-full p-2 border rounded" required>
+                                    <option value="">Select Animal Type</option>
+                                    <option value="cattle">Cattle</option>
+                                    <option value="sheep">Sheep</option>
+                                    <option value="goat">Goat</option>
+                                    <option value="chicken">Chicken</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Gender:</label>
+                                <select name="gender" class="w-full p-2 border rounded" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Date of Birth:</label>
+                                <input type="date" name="dob" class="w-full p-2 border rounded" required>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Last Vaccination Date:</label>
+                                <input type="date" name="lastVaccination" class="w-full p-2 border rounded" required>
+                            </div>
+                            <div>
+                                <label class="block mb-2">Additional Notes:</label>
+                                <textarea name="notes" class="w-full p-2 border rounded" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded">Register Animal</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="fixed bottom-4 right-4 hidden bg-white p-4 rounded-lg shadow-lg"></div>
+
+    <script>
+        // Database simulation (Replace with actual database implementation)
+        const db = {
+            outbreaks: [],
+            animals: [],
+            symptoms: {
+                cattle: ['Fever', 'Lameness', 'Loss of appetite', 'Respiratory issues'],
+                sheep: ['Fever', 'Wool loss', 'Lameness', 'Coughing'],
+                goat: ['Fever', 'Weight loss', 'Diarrhea', 'Coughing'],
+                chicken: ['Respiratory issues', 'Reduced egg production', 'Diarrhea', 'Loss of appetite']
+            },
+            diagnoses: {
+                cattle: {
+                    'Fever': ['Foot and Mouth Disease', 'Anthrax'],
+                    'Lameness': ['Foot and Mouth Disease'],
+                    'Loss of appetite': ['Bovine Tuberculosis'],
+                    'Respiratory issues': ['Bovine Tuberculosis']
+                },
+                // Add more diagnoses for other animals
+            }
+        };
+
+        // City coordinates in Namibia
+        const cityCoordinates = {
+            'Windhoek': [-22.5609, 17.0658],
+            'Walvis Bay': [-22.9576, 14.5053],
+            'Rundu': [-17.9333, 19.7667],
+            'Katima Mulilo': [-17.5000, 24.2667],
+            'Otjiwarongo': [-20.4637, 16.6477]
+        };
+
+        // Initialize map
+        let map;
+        let markers = [];
+
+        function initMap() {
+            map = L.map('map').setView([-22.9576, 18.4904], 6); // Center of Namibia
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add Namibia boundary (simplified)
+            // You would need to add actual GeoJSON data for Namibia's borders
+        }
+
+        // Update map markers
+        function updateMapMarkers() {
+            // Clear existing markers
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+
+            // Add markers for active outbreaks
+            db.outbreaks.forEach(outbreak => {
+                const coords = cityCoordinates[outbreak.location];
+                if (coords) {
+                    const marker = L.marker(coords)
+                        .bindPopup(`${outbreak.disease} outbreak in ${outbreak.location}`)
+                        .addTo(map);
+                    markers.push(marker);
+                }
+            });
+
+            // Update outbreak count
+            document.getElementById('notification-count').textContent = 
+                `${db.outbreaks.length} Active Outbreaks`;
+        }
+
+        // Handle outbreak form submission
+        document.getElementById('outbreak-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const outbreak = {
+                location: formData.get('location'),
+                disease: formData.get('disease'),
+                date: new Date().toISOString()
+            };
+
+            // Add to database
+            db.outbreaks.push(outbreak);
+            
+            // Update map
+            updateMapMarkers();
+            
+            // Show notification
+            showNotification(`New outbreak reported in ${outbreak.location}`);
+            
+            e.target.reset();
+        });
+
+        // Handle diagnostic form
+        const diagnosticForm = document.getElementById('diagnostic-form');
+        const animalTypeSelect = diagnosticForm.querySelector('[name="animalType"]');
+        const symptomSelect = diagnosticForm.querySelector('[name="symptom"]');
+
+        animalTypeSelect.addEventListener('change', function() {
+            const symptoms = db.symptoms[this.value] || [];
+            symptomSelect.innerHTML = '<option value="">Select Symptom</option>' +
+                symptoms.map(s => `<option value="${s}">${s}</option>`).join('');
+        });
+
+        diagnosticForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const animalType = animalTypeSelect.value;
+            const symptom = symptomSelect.value;
+            
+            const possibleDiseases = db.diagnoses[animalType]?.[symptom] || [];
+            const resultDiv = document.getElementById('diagnosis-result');
+            
+            resultDiv.innerHTML = possibleDiseases.length ?
+                `<h3 class="font-bold mb-2">Possible Diseases:</h3>
+                <ul class="list-disc pl-5">
+                    ${possibleDiseases.map(d => `<li>${d}</li>`).join('')}
+                </ul>
+                <p class="mt-4 text-red-600">Please consult a veterinarian for accurate diagnosis.</p>` :
+                '<p>No specific diseases found. Please consult a veterinarian.</p>';
+            
+            resultDiv.classList.remove('hidden');
+        });
+
+        // Handle animal registration
+        document.getElementById('register-animal-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            const animal = {
+                id: `NAM${String(db.animals.length + 1).padStart(3, '0')}`,
+                type: formData.get('type'),
+                gender: formData.get('gender'),
+                dob: formData.get('dob'),
+                lastVaccination: formData.get('lastVaccination'),
+                notes: formData.get('notes'),
+                healthStatus: 'Healthy'
+            };
+
+            // Add to database
+            db.animals.push(animal);
+            
+            // Update animals list
+            updateAnimalsList();
+            
+            // Show notification
+            showNotification(`New animal registered with ID: ${animal.id}`);
+            
+            e.target.reset();
+        });
+
+        // Update animals list
+        function updateAnimalsList() {
+            const animalsList = document.getElementById('animals-list');
+            animalsList.innerHTML = db.animals.map(animal => {
+                const age = calculateAge(animal.dob);
+                const nextVaccination = calculateNextVaccination(animal.lastVaccination);
+                const healthStatus = determineHealthStatus(nextVaccination);
+                
+                return `
+                    <tr>
+                        <td class="border px-4 py-2">${animal.id}</td>
+                        <td class="border px-4 py-2">${capitalizeFirst(animal.type)}</td>
+                        <td class="border px-4 py-2">${age}</td>
+                        <td class="border px-4 py-2">${capitalizeFirst(animal.gender)}</td>
+                        <td class="border px-4 py-2">${formatDate(animal.lastVaccination)}</td>
+                        <td class="border px-4 py-2">${formatDate(nextVaccination)}</td>
+                        <td class="border px-4 py-2">
+                            <span class="px-2 py-1 rounded ${getHealthStatusClass(healthStatus)}">
+                                ${healthStatus}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Helper functions
+        function calculateAge(dob) {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return age === 0 ? 
+                `${Math.floor((today - birthDate) / (1000 * 60 * 60 * 24 * 30.44))} months` :
+                `${age} years`;
+        }
+
+        function calculateNextVaccination(lastVaccination) {
+            const lastVacDate = new Date(lastVaccination);
+            return new Date(lastVacDate.setMonth(lastVacDate.getMonth() + 6));
+        }
+
+        function determineHealthStatus(nextVaccination) {
+            const today = new Date();
+            const daysUntilVaccination = Math.ceil((nextVaccination - today) / (1000 * 60 * 60 * 24));
+            
+            if (daysUntilVaccination < 0) {
+                return 'Vaccination Overdue';
+            } else if (daysUntilVaccination <= 14) {
+                return 'Vaccination Due Soon';
+            } else {
+                return 'Healthy';
+            }
+        }
+
+        function getHealthStatusClass(status) {
+            switch (status) {
+                case 'Vaccination Overdue':
+                    return 'bg-red-100 text-red-800';
+                case 'Vaccination Due Soon':
+                    return 'bg-yellow-100 text-yellow-800';
+                case 'Healthy':
+                    return 'bg-green-100 text-green-800';
+                default:
+                    return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function capitalizeFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all tabs and buttons
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding tab
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Initialize the application
+        function initializeApp() {
+            initMap();
+            updateMapMarkers();
+            updateAnimalsList();
+
+            // Add some sample data
+            if (db.outbreaks.length === 0) {
+                db.outbreaks.push({
+                    location: 'Windhoek',
+                    disease: 'Foot and Mouth Disease',
+                    date: new Date().toISOString()
+                });
+                updateMapMarkers();
+            }
+
+            // Add some sample animals if none exist
+            if (db.animals.length === 0) {
+                db.animals.push({
+                    id: 'NAM001',
+                    type: 'cattle',
+                    gender: 'female',
+                    dob: '2022-01-15',
+                    lastVaccination: '2024-01-15',
+                    notes: 'Sample animal',
+                    healthStatus: 'Healthy'
+                });
+                updateAnimalsList();
+            }
+        }
+
+        // Start the application when the page loads
+        window.addEventListener('load', initializeApp);
+
+        // Handle database storage (replace with actual database implementation)
+        function saveToDatabase() {
+            // In a real implementation, this would save to a backend database
+            localStorage.setItem('namibiaAnimalTracker', JSON.stringify(db));
+        }
+
+        function loadFromDatabase() {
+            // In a real implementation, this would load from a backend database
+            const saved = localStorage.getItem('namibiaAnimalTracker');
+            if (saved) {
+                const parsedData = JSON.parse(saved);
+                db.outbreaks = parsedData.outbreaks || [];
+                db.animals = parsedData.animals || [];
+            }
+        }
+
+        // Save changes to database whenever data is modified
+        ['outbreaks', 'animals'].forEach(key => {
+            let original = db[key];
+            db[key] = new Proxy(original, {
+                set: function(target, property, value) {
+                    target[property] = value;
+                    saveToDatabase();
+                    return true;
+                }
+            });
+        });
+
+        // Load existing data when starting
+        loadFromDatabase();
+    </script>
+</body>
+</html>

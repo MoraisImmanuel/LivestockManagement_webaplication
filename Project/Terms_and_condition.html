@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and Conditions</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --text-color: #333;
+            --heading-color: #444;
+            --bg-color: #f4f4f4;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: var(--heading-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .consent {
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 14px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Terms and Conditions</h1>
+        <p>
+            Please read these terms and conditions carefully before using our website. By accessing or using the website, you agree to be bound by these terms.
+        </p>
+        <h2>1. General Terms</h2>
+        <p>
+            The content on this website is for informational purposes only and may be subject to change without notice.
+        </p>
+        <h2>2. Privacy Policy</h2>
+        <p>
+            We respect your privacy and are committed to protecting your personal information. Please refer to our Privacy Policy for more details.
+        </p>
+        <h2>3. User Conduct</h2>
+        <p>
+            You agree to use the website only for lawful purposes and in a way that does not infringe on the rights of others.
+        </p>
+
+        <div class="consent">
+            <label for="agreeCheckbox">
+                <input type="checkbox" id="agreeCheckbox" aria-label="Agreement to Terms and Conditions">
+                I have read and agree to the Terms and Conditions.
+            </label>
+        </div>
+
+        <button id="submitBtn" disabled aria-label="Submit Terms Agreement">Submit</button>
+    </div>
+
+    <script>
+        const checkbox = document.getElementById('agreeCheckbox');
+        const submitBtn = document.getElementById('submitBtn');
+
+        checkbox.addEventListener('change', function() {
+            submitBtn.disabled = !checkbox.checked;
+        });
+
+        submitBtn.addEventListener('click', function() {
+            // Redirect to index.php after clicking submit
+            window.location.href = 'index.php';
+        });
+    </script>
+</body>
+</html>

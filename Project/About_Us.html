@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        /* General Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-image: url('home.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            padding-top: 120px; /* To make space for the fixed navigation */
+        }
+
+        /* Navigation Bar */
+        .nav {
+            position: fixed;
+            top: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 100px;
+            line-height: 100px;
+            background: linear-gradient(rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.8)); /* Gradient background */
+            z-index: 100;
+        }
+
+        /* Logo Styles */
+        .nav-logo p {
+            color: white;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-menu ul {
+            display: flex;
+        }
+
+        .nav-menu ul li {
+            list-style-type: none;
+        }
+
+        .nav-menu ul li .link {
+            text-decoration: none;
+            font-weight: 500;
+            color: #fff;
+            padding-bottom: 15px;
+            margin: 0 25px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover effect and active link */
+        .link:hover, .active {
+            border-bottom: 2px solid #fff;
+        }
+
+        /* Button Styles */
+        .nav-button .btn {
+            width: 130px;
+            height: 40px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        #registerBtn {
+            margin-left: 15px;
+        }
+
+        .btn.white-btn {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn.white-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Main Content Section */
+        .wrapper {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .content-section h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .content-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+            padding: 0 15px;
+        }
+
+        /* Highlight Classes */
+        .highlight-red {
+            color: #FF6347;
+        }
+
+        .highlight-blue {
+            color: #1E90FF;
+        }
+
+        .highlight-green {
+            color: #32CD32;
+        }
+
+        .highlight-yellow {
+            color: #FFA500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-menu ul li {
+                margin: 10px 0;
+            }
+
+            .nav-button {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            .content-section p {
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .wrapper {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="nav">
+        <div class="nav-logo">
+            <p>logo</p> <!-- Optional: Add your logo here -->
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="Login.php" class="link active">Home</a></li>
+            </ul>
+        </div>
+        <!--<div class="nav-button">
+            <button class="btn white-btn" id="loginBtn" onclick="toggleForm('login.php')">sign in</button>
+            <button class="btn" id="registerBtn" onclick="toggleForm('register.php')">Sign up</button>
+        </div>-->
+        <!-- Language Switcher -->
+        <div>
+            <button class="btn" onclick="changeLanguage('en')">English</button>
+            <button class="btn" onclick="changeLanguage('osh')">Oshiwambo</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <div class="wrapper">
+        <div class="content">
+            <h1 id="aboutUsTitle">About Us</h1>
+
+            <div class="content-section">
+                <h2 id="purposeTitle">The Purpose of Our Website</h2>
+                <p id="purposeText">The website provides a detailed summary of <span class="highlight-red">livestock diseases</span>, complete with descriptions, symptoms, potential cures, and associated vaccines. Farmers can easily identify symptoms of common diseases and access treatment options or preventive measures. This system empowers farmers to act quickly when signs of an illness appear, minimizing animal loss and ensuring the well-being of <span class="highlight-blue">livestock</span>.</p>
+            </div>
+
+            <div class="content-section">
+                <h2 id="vaccinationTitle">Vaccination Information</h2>
+                <p id="vaccinationText">It also offers information on various <span class="highlight-green">livestock vaccinations</span> (e.g., internal/external). Farmers can learn about the different types of vaccines available, the diseases they prevent, and the recommended vaccination schedules. These vaccines may also be useful for preventing and dealing with various parasites, further ensuring the well-being of <span class="highlight-yellow">livestock</span>.</p>
+            </div>
+
+            <div class="content-section">
+                <h2 id="trackingTitle">Animal Health Tracking</h2>
+                <p id="trackingText">The system includes an <span class="highlight-red">animal health-tracking</span> feature, which allows farmers to track the health history of their livestock. This is particularly useful for managing large herds and ensuring the health of animals, especially in rural or expansive areas.</p>
+            </div>
+
+            <div class="content-section">
+                <h2 id="breedingTitle">Breeding and Productivity</h2>
+                <p id="breedingText">The system tracks the productivity of the <span class="highlight-blue">livestock</span>, including the number of animals that were able to produce offspring. It keeps records of the offspring number and continues monitoring them like the rest of the livestock, ensuring the well-being of the herds.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to change text language
+        function changeLanguage(lang) {
+            if (lang === 'en') {
+                document.getElementById("aboutUsTitle").innerText = "About Us";
+                document.getElementById("purposeTitle").innerText = "The Purpose of Our Website";
+                document.getElementById("purposeText").innerHTML = "The website provides a detailed summary of <span class=\"highlight-red\">livestock diseases</span>, complete with descriptions, symptoms, potential cures, and associated vaccines. Farmers can easily identify symptoms of common diseases and access treatment options or preventive measures. This system empowers farmers to act quickly when signs of an illness appear, minimizing animal loss and ensuring the well-being of <span class=\"highlight-blue\">livestock</span>.";
+                document.getElementById("vaccinationTitle").innerText = "Vaccination Information";
+                document.getElementById("vaccinationText").innerHTML = "It also offers information on various <span class=\"highlight-green\">livestock vaccinations</span> (e.g., internal/external). Farmers can learn about the different types of vaccines available, the diseases they prevent, and the recommended vaccination schedules. These vaccines may also be useful for preventing and dealing with various parasites, further ensuring the well-being of <span class=\"highlight-yellow\">livestock</span>.";
+                document.getElementById("trackingTitle").innerText = "Animal Health Tracking";
+                document.getElementById("trackingText").innerHTML = "The system includes an <span class=\"highlight-red\">animal health-tracking</span> feature, which allows farmers to track the health history of their livestock. This is particularly useful for managing large herds and ensuring the health of animals, especially in rural or expansive areas.";
+                document.getElementById("breedingTitle").innerText = "Breeding and Productivity";
+                document.getElementById("breedingText").innerHTML = "The system tracks the productivity of the <span class=\"highlight-blue\">livestock</span>, including the number of animals that were able to produce offspring. It keeps records of the offspring number and continues monitoring them like the rest of the livestock, ensuring the well-being of the herds.";
+                document.getElementById("loginBtn").innerText = "Sign In";
+                document.getElementById("registerBtn").innerText = "Sign Up";
+            
+            } else if (lang === 'osh') {
+                document.getElementById("aboutUsTitle").innerText = "Kombinga yetu";
+                document.getElementById("purposeTitle").innerText = "Elalakano lepandja letu";
+                document.getElementById("purposeText").innerHTML = "Nande okakadona oko Aloys Sipapo a kendabala okukwata keenghono kakwa li ka monifwa oshiponga kolutu nokwa li ashike e ka kwata po ombabyona oule wokafimbo xupi, oinima oyo inai kelela nande a pewe ehandukilo leedula 15 mondolongo ngaashi okatendo kokukelela omakwatokeenghono taka ti, magestrata Esme Molefe osho a ti ngaho pefimbo lokuyandja ehandukilo kuSipapo momhangu yamagestrata mOvenduka Etitano.";
+                document.getElementById("vaccinationTitle").innerText = "Uuyelele wetunilo";
+                document.getElementById("vaccinationText").innerHTML = "Koshibofa shekwatombabyona, Sipapo okwa li a pewa ehandukilo lodula imwe mondolongo, oyo ya kwatelwa mumwe nehandukilo leedula 15 olo a pewa dekwatokeenghono.";
+                document.getElementById("trackingTitle").innerText = "Uundjolowele wiinamwenyo";
+                document.getElementById("trackingText").innerHTML = "Pefimbo loihokolola yaye, ina womepata wokakadona oko taku ti okakwatwa keenghono okwa yandja oumbangi kutya omonakadona okwe mu lombwela kutya okakadona oka ya mobashu yaSipapo, oyo kwa li ya shikula eumbo lombangi.";
+                document.getElementById("breedingTitle").innerText = "Oludalo noshisho";
+                document.getElementById("breedingText").innerHTML = "Sipapo okwa lombwela omhangu kutya yee nomukainhu oo a li naye mekwatafano lopaihole kwa li ve li momilele omanga okaana kwa li taka danauka monduda yokuuhala oyo ya li mokabashu, omanga ina, ina teya po omuvelo wonduda ndee ta hange okaana ke li meni.";
+                document.getElementById("loginBtn").innerText = "Oku ya mo";
+                document.getElementById("registerBtn").innerText = "Ishangifa";
+            }
+        }
+    </script>

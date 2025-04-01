@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newly Discovered Diseases Overview</title>
+    <link rel="stylesheet" href="scss">
+    <style>
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Body with Background Image */
+        body {
+            background: url('background1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Overlay for better readability */
+        #overlay {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        /* Button Styling */
+        button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Disease List Section */
+        #disease-list {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        #disease-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .disease-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .disease-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .disease-card h3 {
+            font-size: 1.5em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .disease-card p {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .disease-card small {
+            display: block;
+            margin-top: 15px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* Popup Styling */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .popup.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .popup p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+
+        
+.nav {
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    background: linear-gradient(rgba(39, 39, 39, 0.6), transparent);
+    z-index: 100;
+}
+
+.nav-logo p {
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.nav-menu {
+    display: flex;
+}
+
+.nav-menu ul {
+    display: flex;
+}
+
+.nav-menu ul li {
+    list-style-type: none;
+}
+
+.nav-menu ul li .link {
+    text-decoration: none;
+    font-weight: 500;
+    color: #fff;
+    padding-bottom: 15px;
+    margin: 0 25px;
+}
+
+.link:hover, .active {
+    border-bottom: 2px solid #fff;
+}
+
+.nav-button .btn {
+    width: 130px;
+    height: 40px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+    </style>
+    <script>
+        function showLoginPopup() {
+            document.getElementById("login-popup").classList.add("show");
+        }
+
+        function hideLoginPopup() {
+            document.getElementById("login-popup").classList.remove("show");
+        }
+    </script>
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="nav-logo">
+            <p><a href="#" class="logo">
+                <img src="logo.png" alt="YourBrand Logo" 
+                style="width: 100px; height: auto; display: block; object-fit: contain; transition: transform 0.3s ease, filter 0.3s ease;">
+        </a></p>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            
+        </div>
+        <div class="nav-button">
+           
+        </div>
+        <div class="nav-menu-btn">
+            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+    </nav>
+    <div id="overlay">
+        <header>
+            <h1>Newly Discovered Diseases in Livestock</h1>
+            <p>Explore newly discovered diseases that affect animals, along with their vaccinations.</p>
+            <button onclick="showLoginPopup()">Log in to see full details</button>
+        </header>
+        <section id="disease-list">
+            <h2>List of Diseases</h2>
+            <div id="disease-container">
+                <div class="disease-card">
+                    <h3>Lumpy Skin Disease</h3>
+                    <p>A viral disease affecting cattle and buffalo, causing skin nodules, fever, and weight loss. It spreads through insect bites and can lead to severe economic losses due to reduced milk production and fertility issues.</p>
+                    <small>Discovered on: 2024-07-15</small>
+                    <p><em>Log in to see vaccination details</em></p>
+                </div>
+                <div class="disease-card">
+                    <h3>Brucellosis</h3>
+                    <p>A bacterial infection that affects cattle, goats, and sheep. It causes reproductive issues like abortion in females and can spread to humans through unpasteurized dairy. Brucellosis can lead to long-term herd health problems.</p>
+                    <small>Discovered on: 2024-08-01</small>
+                    <p><em>Log in to see vaccination details</em></p>
+                </div>
+                <div class="disease-card">
+                    <h3>Anthrax</h3>
+                    <p>A severe bacterial disease affecting cattle, goats, and sheep. It causes sudden death, bleeding from orifices, and can spread rapidly. Anthrax spores can live in soil for decades, posing an ongoing risk to livestock and humans.</p>
+                    <small>Discovered on: 2024-09-10</small>
+                    <p><em>Log in to see vaccination details</em></p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="login-popup" class="popup">
+        <h2>Log in to Access Full Information</h2>
+        <p>Log in to view detailed vaccination information for each disease.</p>
+        <button onclick="hideLoginPopup()">Close</button>
+    </div>
+    <script>
+        function myMenuFunction() {
+            var i = document.getElementById("navMenu");
+            i.classList.toggle("responsive");
+        }
+
+        function toggleForm(form) {
+            var loginForm = document.getElementById("login");
+            var registerForm = document.getElementById("register");
+            var loginBtn = document.getElementById("loginBtn");
+            var registerBtn = document.getElementById("registerBtn");
+
+            if (form === 'login') {
+                loginForm.style.left = "4px";
+                registerForm.style.right = "-520px";
+                loginBtn.classList.add("white-btn");
+                registerBtn.classList.remove("white-btn");
+                loginForm.style.opacity = 1;
+                registerForm.style.opacity = 0;
+            } else if (form === 'register') {
+                loginForm.style
+                loginForm.style.left = "-520px";
+                registerForm.style.right = "4px";
+                registerBtn.classList.add("white-btn");
+                loginBtn.classList.remove("white-btn");
+                loginForm.style.opacity = 0;
+                registerForm.style.opacity = 1;
+            }
+        }
+        </script>
+</body>
+</html>
