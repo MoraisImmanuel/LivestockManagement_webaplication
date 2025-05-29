@@ -3,7 +3,7 @@
 ## LivestockManagement Web Application
 
 ### Features
-- Livestock inventory management
+- Livestock inventory management,
 - Recording of animal health and medical history
 - Tracking of breeding, sales, and purchases
 - Dashboard for quick farm overview
